@@ -1,0 +1,543 @@
+"use strict";
+
+const config = require("./config.defaults");
+
+config.mysql.host = "localhost";
+config.mysql.username = "cbss0h0j";
+config.mysql.password = "replace-me";
+config.mysql.database = "core_platform_db";
+
+config.activity_mysql.host = "localhost";
+config.activity_mysql.username = "platform_activity_log";
+config.activity_mysql.password = "replace-me";
+config.activity_mysql.database = "platform_activity_log_db";
+
+config.sales.host = "localhost";
+config.sales.username = "raqib";
+config.sales.password = "replace-me";
+config.sales.database = "platform_sales_automation";
+config.sales.logoUrl = "https://api.example.com/uploads/";
+config.sales.depositImagePath = "/var/www/html/platform_sales_automation/public/uploads/images";
+
+config.inapp_notification.host = "localhost";
+config.inapp_notification.username = "platform_notification_app";
+config.inapp_notification.password = "replace-me";
+config.inapp_notification.database = "platform_notification";
+
+config.redis.host = "127.0.0.1";
+config.redis.password = "replace-me";
+config.redis.database = 0;
+
+config.engine.success = "200";
+config.engine.minConnections = 10;
+config.engine.maxConnections = 100;
+
+config.executionConfigIdMapping["PLATFORM_CASH"] = 11;
+config.executionConfigIdMapping["PLATFORM_PAYMENT"] = 19;
+config.categoryIdMapping["PLATFORM_CASH"] = 7;
+
+config.categoryWiseExecutionConfig["5"] = {
+  executionConfigId: 13,
+  executionType: 5,
+};
+
+config.categoryWiseExecutionConfig["6"] = {
+  executionConfigId: 13,
+  executionType: 6,
+};
+
+config.categoryWiseExecutionConfig["7"] = {
+  executionConfigId: 11,
+  executionType: 7,
+};
+config.categoryWiseExecutionConfig["8"] = {
+  executionConfigId: 15,
+  executionType: 8,
+};
+
+config.categoryWiseExecutionConfig["15"] = {
+  executionConfigId: 23,
+  executionType: 10,
+};
+
+config.platformCash = {};
+config.platformCash.checkCustomerInfo = true;
+config.platformCash.productId = 126;
+config.platformCash.productCategoryId = 7;
+config.platformCash.trxCommissionCategoryId = 8;
+config.platformCash.domain = "https://api.example.com";
+
+config.charlie = {};
+//config.charlie.url = 'https://charlie.provider.example/api/connect';
+config.charlie.url = "https://charlie.provider.example/api/connect";
+config.charlie.username = "<MSISDN_B>";
+config.charlie.password = "replace-me";
+config.charlie.secret = "replace-me";
+
+config.jompay = {};
+// config.jompay.passKey = "T25IGIPMKI";
+config.jompay.passKey = "X883L7FING";
+config.jompay.validRequestInterval = 900;
+config.jompay.transferType = 0;
+config.jompay.systemId = 0;
+config.jompay.systemName = "System";
+config.ttl.dupjompayrequest = 86400;
+
+config.jompay.productId = 174;
+
+config.categoryWiseExecutionConfig["9"] = {
+  executionConfigId: 16,
+  executionType: 9,
+};
+
+config.billpayment = {};
+config.billpayment.domain = "http://order.platform.local";
+config.billpayment.domain2 = "https://api.example.com";
+config.roleIdsForContactUser = [3, 13];
+config.domain = "https://api.example.com";
+
+config.agentAppDisableRoleId = [15, 17];
+config.userAppDisableRoleId = [];
+
+config.redeemCard = [
+  {
+    encryptionKeyId: "dfc87d00-1cb8-11ea-8d2b-fd601b862115",
+    productIds: [188],
+    channel: "GameOn",
+    returnOriginalCurrency: false,
+    usedBy: "GameOn",
+  },
+];
+
+config.bot = {
+  bn: {
+    id: "1801066300143120",
+    token: process.env.TOKEN || "replace-me",
+  },
+  np: {
+    id: "1801066300143120",
+    token: process.env.TOKEN || "replace-me",
+  },
+  broadcastUrl:
+    "https://bot.example.com/api",
+  messageKey: "successful_login",
+  messageTag: "TICKET_UPDATE",
+};
+
+config.pgw = {
+  /*if u add any currency id here..you must have to include GW, cardType key..it can be null*/
+  productId: 247,
+  productCategoryId: 12,
+  pgwDisableRole: [7, 15, 17],
+
+  "-1": {
+    GW: "",
+    CardType: "",
+
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  1: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  3: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  4: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  11: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  12: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  13: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  14: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  15: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  16: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  18: {
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    debit_credit_card: "M29S16_MY_CARD",
+    mobile_wallet: "M29S16_MY_OZOPAY",
+    online_banking: "M29S16_MY_FPX",
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+  },
+  2: {
+    aggregatorName: "CPG",
+    aggregatorTransactionInitiateUrl:
+      "https://pay.acme.com.sg/cpg/paymentrequest.php",
+    aggregatorTransactionVerifyUrl:
+      "https://pay.acme.com.sg/cpg/TransactionStatus/transactionStatusApi1.2.php",
+    secret: process.env.SECRET || "replace-me",
+    mcnt_AccessCode: "020630153226",
+    mcnt_ShortName: "platformagent",
+    mcnt_ShopId: 240,
+    successUrl: "https://api.example.com/api/pgw/transaction/callback",
+    cancelUrl: "https://api.example.com/api/pgw/transaction/callback",
+    failUrl: "https://api.example.com/api/pgw/transaction/callback",
+    currencyCode: "BDT",
+    GW: "IPAY88",
+    CardType: "IPAY88",
+
+    tdr: {
+      debit_credit_card: 2.5,
+      mobile_wallet: 2.5,
+      online_banking: 2.5,
+    },
+    debit_credit_card: "M29S16_BD_CARD",
+    mobile_wallet: "M29S16_BD_MB",
+    online_banking: "M29S16_BD_BANK",
+  },
+};
+config.countryWiseConfiguration = {
+  88: {
+    roleIdForSignUp: 7,
+    currencyCode: 2,
+  },
+  965: {
+    roleIdForSignUp: 7,
+    currencyCode: 11,
+  },
+  974: {
+    roleIdForSignUp: 7,
+    currencyCode: 12,
+  },
+  966: {
+    roleIdForSignUp: 7,
+    currencyCode: 13,
+  },
+  968: {
+    roleIdForSignUp: 7,
+    currencyCode: 14,
+  },
+  971: {
+    roleIdForSignUp: 7,
+    currencyCode: 15,
+  },
+  973: {
+    roleIdForSignUp: 7,
+    currencyCode: 16,
+  },
+  "-1": {
+    roleIdForSignUp: 7,
+    currencyCode: 1,
+  },
+};
+config.giftBalance = {
+  enable: true,
+  commissionConfigAPI: "http://nodecommission.platform.local/api/commission",
+  transferType: 7,
+  systemUserName: "System",
+};
+
+config.packagePurchase = {
+  executionConfigId: 20,
+  executionType: 11,
+};
+
+config.referralCommission = {
+  baseUrl: "http://referral.platform.local",
+  accessToken:
+    "replace-me",
+  transferType: 8,
+};
+
+config.inviteFriends = {
+  android: [
+    {
+      appName: "com.example.app",
+      apiKey: process.env.APIKEY || "replace-me",
+      dynamicLinkInfo: {
+        domainUriPrefix: "https://platformorder.page.link",
+        link: "https://play.google.com/store/apps/details?id=com.example.app&hl=en",
+        androidInfo: {
+          androidPackageName: "com.example.app",
+        },
+      },
+    },
+    {
+      appName: "com.acme.platform",
+      apiKey: process.env.APIKEY || "replace-me",
+      dynamicLinkInfo: {
+        domainUriPrefix: "https://acme.page.link",
+        link: "https://play.google.com/store/apps/details?id=com.acme.platform",
+        androidInfo: {
+          androidPackageName: "com.acme.platform",
+        },
+      },
+    },
+  ],
+  ios: [
+    {
+      appName: "com.example.app",
+      apiKey: process.env.APIKEY || "replace-me",
+      dynamicLinkInfo: {
+        domainUriPrefix: "https://platformorder.page.link",
+        link: "https://play.google.com/store/apps/details?id=com.example.app&hl=en",
+      },
+    },
+    {
+      appName: "com.acme.platform",
+      apiKey: process.env.APIKEY || "replace-me",
+      dynamicLinkInfo: {
+        domainUriPrefix: "https://acme.page.link",
+        link: "https://play.google.com/store/apps/details?id=com.acme.platform",
+      },
+    },
+  ],
+};
+
+config.partner_voice = {
+  default: {
+    baseUrl: "https://internal-service.example/",
+    baseUrlWrapper:
+      "https://digiapi.acme.com.sg/cgwWrapper/ChargeSpecificAmountWrapper.php",
+    appid: "VSDP",
+    apppass: "NOPASS",
+    bno: "reload",
+    serviceid: "SERVICE_DOB",
+    subscriptiongroupid: "DG_SSD_DOB_Daily_NA_5e28ad968626b",
+    productcode: "",
+    channel: "wap",
+    cgwenable: 1,
+  },
+  zulu: {
+    baseUrl: "https://internal-service.example/",
+    appid: "VSDP",
+    apppass: "NOPASS",
+    bno: "reload",
+    serviceid: "SERVICE_A_ID",
+    subscriptiongroupid: "zulu_on_demand",
+    productcode: "zulu",
+    channel: "wap",
+    cgwenable: 1,
+  },
+};
+
+config.spinner = {
+  isAgent: "api/referral/is-agent",
+  referralAgentRegistration: "api/referral/agent-registration",
+  redirectLogin: "api/referral/auto-login-url",
+
+  BD: {
+    stagingBaseUrl: "https://kinteychay.com/",
+    liveBaseUrl: "https://spinner.io/",
+    agentToken:
+      "replace-me",
+  },
+
+  MY: {
+    stagingBaseUrl: "https://staging.example.com/",
+    liveBaseUrl: "https://app.example.com/",
+    agentToken:
+      "replace-me",
+  },
+};
+
+config.zulu = {
+  baseUrl: "https://prod-api-partner.viewlift.com/v1",
+  site: "zulutv",
+  partner: "PLATFORM_COUNTRY_B",
+  apiKey: process.env.APIKEY || "replace-me",
+};
+
+config.regReferralEngOnResellerCreation = false;
+
+config.enableExecutionLog = true;
+config.ttl.allowDupOrder = false;
+config.ttl.duporder = 300;
+
+config.payments.productId = [304, 553];
+
+config.jompayRefundRequestValidity = 1;
+
+config.notification = {
+  baseUrl: "https://internal-service.example/message/send",
+};
+
+config.giftSignup = {
+  enable: true,
+  commissionConfigAPI: "http://nodecommission.platform.local/api/commission",
+  transferType: 9,
+  systemUserName: "System",
+};
+
+config.userDevice = {
+  isEnable: true,
+  maxDeviceRegistrationNo: 3,
+};
+
+config.voiceBillPayment = {
+  channels: ["channel_b", "voice"],
+  newUserRoleId: 7,
+  channelB: {
+    parentId: 180304,
+  },
+  voice: {
+    parentId: 15881,
+  },
+};
+
+config.ledger = {
+  userId: "platform.admin",
+  password: process.env.PASSWORD || "replace-me",
+  baseUrl: "https://developer.ledger.app/api",
+};
+
+config.mobile = {
+  duplicateTrxCheckInMins: 60,
+  userId: 221526,
+  userRoleId: 24,
+};
+
+config.mobile = {
+  duplicateTrxCheckInMins: 60,
+  userId: 221526,
+  userRoleId: 24,
+  //callbackUrl: "https://mobile.platform.io/api/webhook/platform"
+  callbackUrl: "https://admin.platform.io/api/webhook/platform",
+};
+
+config.categoryWiseExecutionConfig["20"] = {
+  executionConfigId: 25,
+  executionType: 13,
+};
+
+config.categoryWiseExecutionConfig["21"] = {
+  executionConfigId: 24,
+  executionType: 10,
+};
+
+config.otpSystem = {
+  maxTries: 5,
+  expireTime: 300000,
+  activeTime: 180000,
+};
+
+config.operatorBasedTimeLimit = {
+  ATOM: 120,
+  "TELENOR MYANMAR": 120,
+  OOREDOO: 60,
+  MPT: 0,
+  MYTEL: 0,
+};
+
+config.riaMoney = {
+  BASE_URL: "https://enprepaid.eftapme.com/riaapiUAT/mainRequest",
+  PARTITION_ID: "PARTNER_C",
+  CHANNEL_ID: "ONEAPP", // "ACME",
+  CHANNEL_PASSWORD: "replace-me", // "Secure@2024*",
+  TIMEOUT: 30000,
+  MAX_RETRIES: 2,
+  IS_ENCRYPTION: false, // true for base64EncodedMainRequest endpoint, false for mainRequest endpoint
+};
+
+module.exports = config;

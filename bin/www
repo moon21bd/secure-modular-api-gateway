@@ -1,0 +1,136 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const debug = require("debug")("app:server")
+const http = require("http")
+const async = require("async")
+const fsextra = require("fs-extra")
+
+const app = require("../app")
+const cfg = require("../config")
+
+const dirs = ["./tmp"]
+dirs.forEach(dir => fsextra.ensureDirSync(dir, 0o2644))
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || "3001")
+app.set("port", port)
+
+/**
+ * Create HTTP server.
+ */
+const server = http.createServer(app)
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port)
+server.on("error", onError)
+server.on("listening", onListening)
+
+process.on("SIGINT", onShutdown)
+process.on("message", msg => {
+    if (msg === "shutdown") {
+        setTimeout(onShutdown, 1500)
+    }
+})
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    var port = parseInt(val, 10)
+
+    if (isNaN(port)) {
+        // named pipe
+        return val
+    }
+
+    if (port >= 0) {
+        // port number
+        return port
+    }
+
+    return false
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== "listen") {
+        throw error
+    }
+
+    var bind = typeof port === "string" ? "Pipe " + port : "Port " + port
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case "EACCES":
+            cfg.logger.error(bind + " requires elevated privileges")
+            process.exit(1)
+            break
+        case "EADDRINUSE":
+            cfg.logger.error(bind + " is already in use")
+            process.exit(1)
+            break
+        default:
+            throw error
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    var addr = server.address()
+    var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port
+    debug("Listening on " + bind)
+}
+
+function onShutdown() {
+    let callback = function (err) {
+        if (err) {
+            console.error(err)
+            process.exit(1)
+            return
+        }
+
+        cfg.logger.info("Server closed.")
+        process.exit(0)
+    }
+
+    async.series(
+        [
+            callback => {
+                server.close(err => {
+                    if (err) {
+                        return callback(err)
+                    }
+
+                    callback()
+                })
+            },
+            callback => {
+                require("../resources/database.connection").shutdown(callback)
+            },
+        ],
+        err => {
+            if (err) {
+                return callback(err)
+            }
+
+            callback()
+        }
+    )
+}

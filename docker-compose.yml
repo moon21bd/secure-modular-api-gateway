@@ -1,0 +1,82 @@
+# version: '3.8'
+services:
+  # platform-api-provider:
+  #   build: .
+  #   environment:
+  #     - NODE_ENV=production
+  #     - PORT=3000
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./logs:/app/logs
+  #     - /app/node_modules
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   networks:
+  #     - app-network
+
+  platform-api-provider-dev:
+    image: node:18-alpine
+    container_name: platform-api-provider-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    ports:
+      - "3001:3001"
+    command: ["npm", "start"]
+    # depends_on:
+    #   mysql:
+    #     condition: service_healthy
+    #   redis:
+    #     condition: service_healthy
+    networks:
+      - app-network
+  
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: apigw_mysql
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=root
+  #     - MYSQL_DATABASE=core_platform_db
+  #     - MYSQL_USER=root
+  #     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  #     - MYSQL_PASSWORD=
+  #   volumes:
+  #     - ./db/core_platform_db.sql:/docker-entrypoint-initdb.d/docker-mysql-init.sql
+  #     - mysql_data:/var/lib/mysql
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uuser", "-ppwd"]
+  #     interval: 5s
+  #     timeout: 2s
+  #     retries: 30
+  
+  redis:
+    image: redis:alpine
+    container_name: apigw_redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--requirepass", "Nopass1234", "--bind", "127.0.0.1", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - app-network
+
+# volumes:
+  # mysql_data: {}
+
+networks:
+  app-network:
+    driver: bridge
