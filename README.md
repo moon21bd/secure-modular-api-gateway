@@ -1,4 +1,10 @@
-# Modular Domain Composer
+# Secure Modular API Gateway
+
+> **Provenance.** Reference version of a production gateway I designed and
+> maintained from 2022 to 2026: 460+ of my own commits over four years, serving a
+> cross-border recharge and wallet platform. Names, keys and data are removed;
+> the architecture, middleware order and conventions are the real ones. I am
+> happy to do a live walkthrough of any design decision.
 
 A Node/Express API gateway built as a **modular monolith**: every business
 domain lives in its own self-contained component (`index.js` + `queries.js`),
